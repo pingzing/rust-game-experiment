@@ -2,11 +2,13 @@ use std::io;
 mod player;
 mod game_state;
 mod unit_base;
+mod combat_action;
 
 fn main() {
     let starting_option_pair = game_state::OptionPair {
             option_number: 1,
-            option_description: "Enter 1 to continue.".to_string()
+            option_description: "Enter 1 to continue.".to_string(),
+            option_action: None
         };
         
     let mut current_state = game_state::State {
@@ -59,7 +61,8 @@ fn update_state(input: u32, curr_state: &game_state::State) -> Option<game_state
         if pair.option_number == input {
             let secondary_option_pair = game_state::OptionPair {
                 option_number: 1,
-                option_description: "This is the secondary optionPair. Press 1.".to_string()
+                option_description: "This is the secondary optionPair. Press 1.".to_string(),
+                option_action: None
             };
             
             let result = game_state::State {
