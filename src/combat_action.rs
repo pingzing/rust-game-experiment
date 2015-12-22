@@ -1,3 +1,8 @@
+use player::Player;
+use enemy::Enemy;
+
 pub struct Action {
-    id: u32
+    pub id: u32,    
+    pub action: Box<Fn(&mut Player, &mut Enemy)>,
+    pub description: String
 }

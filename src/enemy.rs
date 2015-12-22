@@ -1,24 +1,29 @@
 use unit_base::*;
+use combat_action::Action;
 
 pub struct Enemy {
 	pub health: i32,
 	pub name: String,
 	pub base_damage_reduction: f64,
-	pub base_attack_damage: i32
+	pub base_attack_damage: i32,
+    pub actions: Vec<Action>
 }
 
 impl IsUnit for Enemy {
 	fn get_health(&self) -> i32 {
 		return self.health;
 	}
+    
 	fn get_name(&self) -> &str {
 		return &self.name;
 	}
+    
 	fn get_damage_reduction(&self) -> f64 {
 		return self.base_damage_reduction;
 	}
-	fn take_damage(&mut self, incoming_damage: i32); {
-		let total_damage = incoming_damage as f64 * self.base_damage_reduction;
+    
+	fn take_damage(&mut self, incoming_damage: i32) {
+		let total_damage = incoming_damage as f64 * 1f64 - (self.base_damage_reduction/100f64);
 		self.health = self.health - total_damage as i32;
 		if self.health <= 0 {
 			self.die();

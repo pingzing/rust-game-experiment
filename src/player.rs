@@ -1,6 +1,7 @@
 use unit_base::*;
 
-struct Player {
+#[derive(Debug)]
+pub struct Player {
     pub health: i32,
 	pub name: String,
 	pub base_damage_reduction: f64,
@@ -18,7 +19,7 @@ impl IsUnit for Player {
 		return self.base_damage_reduction;
 	}
 	fn take_damage(&mut self, incoming_damage: i32) {
-		let total_damage = incoming_damage as f64 * self.base_damage_reduction;
+		let total_damage = incoming_damage as f64 * 1f64 - (self.base_damage_reduction/100f64);
 		self.health = self.health - total_damage as i32;
 		if self.health <= 0  {
 			self.die();
