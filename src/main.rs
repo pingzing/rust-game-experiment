@@ -8,6 +8,7 @@ mod enemy;
 mod battle_coordinator;
 mod player_actions;
 mod enemy_actions;
+mod parsing;
 
 use std::io;
 use player::Player;
@@ -20,8 +21,8 @@ fn main() {
             option_number: 1,
             option_description: "Enter 1 to continue.".to_string(),
             option_action: None
-        };                           
-        
+        };                                       
+    
     let mut current_state = game_state::State {
         state_description: "This is the beginning state.".to_string(),
         state_options: vec![starting_option_pair],

@@ -18,12 +18,13 @@ impl IsUnit for Player {
 	fn get_damage_reduction(&self) -> f64 {
 		return self.base_damage_reduction;
 	}
-	fn take_damage(&mut self, incoming_damage: i32) {
+	fn take_damage(&mut self, incoming_damage: i32) -> u32 {
 		let total_damage = incoming_damage as f64 * 1f64 - (self.base_damage_reduction/100f64);
 		self.health = self.health - total_damage as i32;
 		if self.health <= 0  {
 			self.die();
 		}
+        return total_damage as u32;
 	}
 	fn die(&mut self) {
 		self.health = 0;
@@ -35,8 +36,9 @@ impl CanAttack for Player {
 	fn get_attack_damage(&self) -> i32 {
 		return self.base_attack_damage;				
 	}
-	fn attack_target<T: IsUnit>(&self, target: &mut T) {
+	fn attack_target<T: IsUnit>(&self, target: &mut T) -> u32 {
 		let outgoing_damage = self.get_attack_damage();
-		target.take_damage(outgoing_damage);
+		let damage_dealt = target.take_damage(outgoing_damage);
+        return damage_dealt;
 	}
 }
