@@ -82,17 +82,19 @@ fn update_state(input: u32, curr_state: &game_state::State, batt_coord: &mut Bat
                 return Some(result);
             }               
             else {
-                let end_battle_options = OptionPair {
+                //todo: make this return a state
+                let action = &pair.option_action.as_ref().unwrap().action;
+                (action)(&mut Player::get_blank_player(), &mut Enemy::get_blank_enemy());
+                let battle_over_state = State {
+                    state_description: "The battle has ended.".to_string(),
+                    state_options: vec![OptionPair {
                         option_number: 1,
-                        option_description: "Press 1 to end.".to_string(),
+                        option_description "End game".to_string(),
                         option_action: None
-                    };
-                let result = State {
-                    state_description: "Battle complete!".to_string(),
-                    state_options: vec![end_battle_options],
-                    is_combat_state: false                    
+                    }],
+                    is_combat_state = false
                 };
-                return Some(result);
+                return battle_over_state;
             }                                                        
         }        
     }
@@ -122,14 +124,13 @@ fn initialize_new_player() -> Player {
     return player;
 }
 
-fn initialize_new_enemy() -> Enemy {
-    let default_actions = enemy_actions::get_enemy_actions();
+fn initialize_new_enemy() -> Enemy {    
     let enemy = Enemy {
+        id: 1,
         health: 100,
         name: "Hydrofiend".to_string(),
         base_damage_reduction: 5f64,
-        base_attack_damage: 10,
-        actions: default_actions
+        base_attack_damage: 10,        
     };
     
     return enemy;

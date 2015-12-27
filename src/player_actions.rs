@@ -1,11 +1,15 @@
 use combat_action::Action;
 use unit_base::CanAttack;
+use rand::{thread_rng, Rng};
+
 
 pub fn get_player_actions() -> Vec<Action> {
     let player_fight = Action {
-        id: 0,
+        group_id: 0,
         action: Box::new(move |player, enemy| {
-            let damage_dealt = player.attack_target(enemy);
+            let mut rng = thread_rng();
+            let outgoing_damage = rng.gen_range(1,3);
+            let damage_dealt = player.attack_target(enemy, outgoing_damage);
             return Some(damage_dealt);
         }),
         description: "You attack {0}, and deal {1} damage!".to_string()

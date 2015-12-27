@@ -8,5 +8,5 @@ pub trait IsUnit {
 
 pub trait CanAttack {
 	fn get_attack_damage(&self) -> i32;
-	fn attack_target<T: IsUnit>(&self, target: &mut T) -> u32;
+	fn attack_target<T: IsUnit>(&self, target: &mut T, damage_value: i32) -> u32;
 } 

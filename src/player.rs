@@ -8,6 +8,17 @@ pub struct Player {
 	pub base_attack_damage: i32
 }
 
+impl Player {
+    pub fn get_blank_player() -> Player {
+    Player {
+        health: 1,
+        name: "Blank".to_string(),
+        base_damage_reduction: 0f64,
+        base_attack_damage: 0
+    }
+}
+}
+
 impl IsUnit for Player {
 	fn get_health(&self) -> i32 {
 		return self.health;
@@ -36,8 +47,8 @@ impl CanAttack for Player {
 	fn get_attack_damage(&self) -> i32 {
 		return self.base_attack_damage;				
 	}
-	fn attack_target<T: IsUnit>(&self, target: &mut T) -> u32 {
-		let outgoing_damage = self.get_attack_damage();
+	fn attack_target<T: IsUnit>(&self, target: &mut T, damage_value: i32) -> u32 {
+		let outgoing_damage = self.get_attack_damage() + damage_value;
 		let damage_dealt = target.take_damage(outgoing_damage);
         return damage_dealt;
 	}

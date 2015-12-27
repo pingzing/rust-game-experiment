@@ -2,11 +2,30 @@ use unit_base::*;
 use combat_action::Action;
 
 pub struct Enemy {
+    pub id: u32,
 	pub health: i32,
 	pub name: String,
 	pub base_damage_reduction: f64,
-	pub base_attack_damage: i32,
-    pub actions: Vec<Action>    
+	pub base_attack_damage: i32,    
+}
+
+impl Enemy{        
+    pub fn get_blank_enemy() -> Enemy {
+    Enemy {
+        id: 0,
+        health: 1,
+        name: "Blank Enemy".to_string(),
+        base_damage_reduction: 0f64,
+        base_attack_damage: 1
+    }
+}
+    
+    pub fn get_actions(&self) -> Vec<Action> {
+        super::enemy_actions::get_enemy_actions()
+        .into_iter()
+        .filter(|x| x.group_id == self.id)
+        .collect::<Vec<_>>()
+    }
 }
 
 impl IsUnit for Enemy {
@@ -41,8 +60,8 @@ impl CanAttack for Enemy {
 	fn get_attack_damage(&self) -> i32 {
 		return self.base_attack_damage;				
 	}
-	fn attack_target<T: IsUnit>(&self, target: &mut T) -> u32 {
-		let outgoing_damage = self.get_attack_damage();
+	fn attack_target<T: IsUnit>(&self, target: &mut T, damage_value: i32) -> u32 {
+		let outgoing_damage = self.get_attack_damage() + damage_value;
         let damage_dealt = target.take_damage(outgoing_damage);
         return damage_dealt;
 	}
