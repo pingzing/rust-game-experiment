@@ -1,6 +1,7 @@
 use unit_base::*;
 use combat_action::Action;
 
+#[derive(Clone)]
 pub struct Enemy {
     pub id: u32,
 	pub health: i32,

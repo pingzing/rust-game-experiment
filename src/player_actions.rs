@@ -8,7 +8,7 @@ pub fn get_player_actions() -> Vec<Action> {
         group_id: 0,
         action: Box::new(move |player, enemy| {
             let mut rng = thread_rng();
-            let outgoing_damage = rng.gen_range(1,3);
+            let outgoing_damage = rng.gen_range(2,5);
             let damage_dealt = player.attack_target(enemy, outgoing_damage);
             return Some(damage_dealt);
         }),

@@ -12,21 +12,19 @@ pub struct BattleCoordinator {
 }
 
 impl BattleCoordinator {
-    fn get_gameover_state() -> State {
+    fn get_gameover_state(player: Player) -> State {
         State {
             state_description: "Corrosion crawls up your body, reducing you to a brittle \
                                 husk."
                                    .to_string(),
             state_options: vec![OptionPair {
                                     option_number: 1,
-                                    option_description: "End game".to_string(),
-                                    option_action: Some(Action {
-                                        group_id: 0,
-                                        action: None,
-                                        description: "You crumble to dust.".to_string(),
-                                    }),
+                                    option_description: "End battle".to_string(),
+                                    option_action: None,
                                 }],
             is_combat_state: false,
+            player: player,
+            enemy: None
         }
     }
 
@@ -36,7 +34,7 @@ impl BattleCoordinator {
         self.enemy_turn(curr_state);
 
         if self.player.health == 0 {
-            let return_state = BattleCoordinator::get_gameover_state();
+            let return_state = BattleCoordinator::get_gameover_state(curr_state.player.clone());
             return return_state;
         }
 
@@ -52,6 +50,8 @@ impl BattleCoordinator {
                                        self.enemy.as_ref().unwrap().health),
             state_options: vec![next_turn_option],
             is_combat_state: true,
+            player: self.player.clone(),
+            enemy: self.enemy.clone()
         };
         return new_state;
     }

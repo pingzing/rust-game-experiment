@@ -1,6 +1,6 @@
 use unit_base::*;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Player {
     pub health: i32,
 	pub name: String,
